@@ -1,0 +1,15 @@
+{
+  "name": "bem-frontend",
+  "version": "1.0.0",
+  "description": "bem frontend pack",
+  "main": "index.js",
+  "repository": "https://Buctown@bitbucket.org/Buctown/bem-gulp-webpack.git",
+  "author": "Artem Zrilov <mr.zrilov@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "cd frontend && gulp",
+    "build": "cd frontend && gulp prod --production",
+    "favicons": "cd frontend && gulp favicons --production"
+  },
+  "devDependencies": {}
+}

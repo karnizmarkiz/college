@@ -1,0 +1,151 @@
+.modal {
+  position: absolute;
+  z-index: 15;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #FFFFFF;
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+  width: 465px;
+  padding: 40px 55px 50px;
+}
+
+.modal--size-xl {
+  min-height: 600px;
+}
+
+.modal--size-l {
+  min-height: 500px;
+}
+
+.modal__header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__header-icon {
+  width: 100%;
+  height: 100%;
+  max-width: 80px;
+  max-height: 80px;
+  padding-bottom: 15px;
+}
+
+.modal__header-title {
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.modal__header:not(:last-child) {
+  padding-bottom: 40px;
+}
+
+.modal__body {
+  padding-bottom: 25px;
+}
+
+.modal__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal__pagination {
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.modal__text {
+  max-width: 300px;
+  margin: 0 auto 35px;
+}
+
+.input {
+  border: none;
+  padding: 20px 10px;
+  width: 100%;
+  background: rgba(222, 217, 217, 0.5);
+  border-radius: 7px;
+  outline: none;
+  color: #6A6262;
+}
+
+.input:not(:last-child) {
+  margin-bottom: 20px;
+}
+
+.input::placeholder {
+  color: #6A6262;
+}
+
+.input--error {
+  background: rgba(244, 67, 54, 0.5);
+}
+
+.button {
+  padding: 15px 25px;
+  background: #0277BD;
+  border-radius: 7px;
+  border: none;
+  cursor: pointer;
+  color: #FFFFFF;
+  transition: background-color .3s;
+  font-size: 18px;
+}
+
+.button:hover {
+  background: #0288D1;
+}
+
+.link {
+  font-weight: 300;
+  color: #0277BD;
+  text-decoration: none;
+  font-size: 12px;
+  opacity: 1;
+  transition: opacity .3s;
+}
+
+.link:hover {
+  opacity: .7;
+}
+
+.pagination {
+  display: flex;
+}
+
+.pagination__item {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #C4C4C4;
+}
+
+.pagination__item--active {
+  background: #03A9F4;
+}
+
+.pagination__item:not(:last-child) {
+  margin-right: 4px;
+}
+
+.text {
+  font-size: 12px;
+  color: #6A6262;
+}
+
+.text--center {
+  text-align: center;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+/*# sourceMappingURL=maps/style.css.map */
