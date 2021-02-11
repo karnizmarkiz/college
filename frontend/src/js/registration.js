@@ -1,5 +1,7 @@
+'use strict';
 import { emailRegExp } from './utils/regExp';
 import IMask from 'imask';
+import {request} from "./utils/request";
 
 const phoneInput = document.querySelector('.js-phone');
 const phoneMaskOptions = {
@@ -20,12 +22,13 @@ const values = {
     firstName: '',
     secondName: '',
     patronymic: ''
-}
+};
+
 let errors = [];
 
 function validation(name, value) {
 
-    if (name === 'password' && length < 8 ) {
+    if (name === 'password' && value.length < 4 ) {
         errors.push(name);
         return false;
     }
@@ -42,7 +45,7 @@ function validation(name, value) {
 
     if (name === 'phone' && phoneMask.unmaskedValue.length !== 11) {
         errors.push(name);
-        return false
+        return false;
     }
 
     if (value === '') {
@@ -58,7 +61,7 @@ function nextStep() {
 
     Array.prototype.forEach.call(inputs, (input) => {
         validation(input.name, input.value);
-        values[input.name] = input.value
+        values[input.name] = input.value;
     });
 
     if (errors.length === 0) {
@@ -76,11 +79,11 @@ function nextStep() {
     } else {
         inputs.forEach(input => {
             if (errors.includes(input.name)) {
-                input.classList.add('input--error')
+                input.classList.add('input--error');
             } else {
-                input.classList.remove('input--error')
+                input.classList.remove('input--error');
             }
-        })
+        });
     }
 }
 
@@ -88,4 +91,32 @@ const nextStepBtns = document.querySelectorAll('.js-next-step');
 
 nextStepBtns.forEach((btn) => {
     btn.addEventListener('click', nextStep);
-})
+});
+
+const finishBtn = document.querySelector('.js-finish');
+
+finishBtn.addEventListener('click', () => {
+    const inputs = steps[step].querySelectorAll('.input');
+
+    Array.prototype.forEach.call(inputs, (input) => {
+        validation(input.name, input.value);
+        values[input.name] = input.value;
+    });
+
+    if (errors.length === 0) {
+        request
+            .post('/api/registration', values)
+            .then(() => {
+                alert('Вы успешно зарегестрировались');
+                window.location = '/login';
+            });
+    } else {
+        inputs.forEach(input => {
+            if (errors.includes(input.name)) {
+                input.classList.add('input--error');
+            } else {
+                input.classList.remove('input--error');
+            }
+        });
+    }
+});

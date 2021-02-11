@@ -81,14 +81,14 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/login.js");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/js/index.js");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/js/login.js":
+/***/ "./src/js/index.js":
 /*!*************************!*\
-  !*** ./src/js/login.js ***!
+  !*** ./src/js/index.js ***!
   \*************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -96,49 +96,62 @@
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/request */ "./src/js/utils/request.js");
-/* harmony import */ var _utils_regExp__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/regExp */ "./src/js/utils/regExp.js");
 
 
+const applicants = document.querySelector('.applicants');
+const groupName = document.querySelector('.js-group-name');
+const groupsItems = document.querySelectorAll('.js-group');
+const originalCheckbox = document.querySelector('.js-original');
+
+const filters = {
+    group: groupsItems[0].getAttribute('data-id'),
+    original: false
+};
 
 
-const password = document.querySelector('.password');
-const email = document.querySelector('.email');
-const btn = document.querySelector('.js-login');
-
-btn.addEventListener('click', () => {
-    if (
-        email.length === 0 &&
-        email.test(_utils_regExp__WEBPACK_IMPORTED_MODULE_1__["emailRegExp"]) &&
-        password.length <= 8
-    ) {
-        alert('Неверно заполнен логин или пароль');
-        return false;
-    }
-
-    _utils_request__WEBPACK_IMPORTED_MODULE_0__["request"]
-        .post('/api/login', {
-            email: email.value,
-            password: password.value
-        })
-        .then(() => {
-            // window.location = '/';
-        });
+originalCheckbox.addEventListener('click', () => {
+    filters.original = !filters.original;
+    filter();
 });
 
+groupsItems.forEach((item) => {
+   item.addEventListener('click', () => {
+       filters.group = item.getAttribute('data-id');
+       groupName.textContent = item.querySelector('.chip__dropdown-title').textContent;
+       filter();
+   });
+});
 
-/***/ }),
+const filter = () => {
+    _utils_request__WEBPACK_IMPORTED_MODULE_0__["request"]
+        .post('/api/applicants-filter', filters)
+        .then(response => {
+            let html = '';
 
-/***/ "./src/js/utils/regExp.js":
-/*!********************************!*\
-  !*** ./src/js/utils/regExp.js ***!
-  \********************************/
-/*! exports provided: emailRegExp */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+            response.forEach((item) => {
+                html += `
+                    <div class="data-item">
+                        <div class="data-item__info">
+                            <div class="data-item__icon data-item__icon--success">${item.score}</div>
+                            <div class="data-item__content">
+                                <div class="data-item__title">
+                                    ${item.surname} ${item.name} ${item.patronymic}
+                                </div>
+                                <div class="data-item__subtitle">
+        
+                                </div>
+                            </div>
+                        </div>
+                        <div class="data-item__status">
+                            ${item.original === '1' ? 'Оригинал' : 'Не оригинал'}
+                        </div>
+                    </div>
+                `;
+            });
 
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "emailRegExp", function() { return emailRegExp; });
-const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            applicants.innerHTML = html;
+        });
+};
 
 
 /***/ }),
@@ -176,4 +189,4 @@ const request = new Request();
 /***/ })
 
 /******/ });
-//# sourceMappingURL=login.js.map
+//# sourceMappingURL=index.js.map

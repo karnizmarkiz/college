@@ -141,11 +141,146 @@
   text-align: center;
 }
 
+.header {
+  display: flex;
+  padding: 16px;
+  border-bottom: 1px solid #A6A4A4;
+}
+
+.header__user {
+  display: flex;
+  align-items: center;
+}
+
+.header__user-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 62px;
+  height: 62px;
+  background: #039BE5;
+  border-radius: 100%;
+  color: #FFFFFF;
+  font-size: 32px;
+  margin-right: 15px;
+}
+
+.container {
+  width: 100%;
+  max-width: 1092px;
+  padding: 0 10px;
+  margin: 0 auto;
+}
+
+.padding-top-20 {
+  padding-top: 20px;
+}
+
+.padding-top-40 {
+  padding-top: 40px;
+}
+
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 30px 20px;
+  border-radius: 6px;
+  transition: background-color .3s;
+  cursor: pointer;
+}
+
+.data-item:hover {
+  background-color: #EEEEEE;
+}
+
+.data-item__info {
+  display: flex;
+  align-items: center;
+}
+
+.data-item__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 100%;
+  color: #FFFFFF;
+  font-size: 16px;
+  margin-right: 15px;
+}
+
+.data-item__icon--success {
+  background: rgba(72, 172, 152, 0.47);
+}
+
+.data-item__icon--alert {
+  background: rgba(242, 48, 35, 0.47);
+}
+
+.chips {
+  display: flex;
+}
+
+.chips .chip {
+  display: inline-block;
+  background-color: #F6F6F6;
+  border-radius: 10px;
+  padding: 3px 15px;
+  cursor: pointer;
+}
+
+.chips .chip:not(:last-child) {
+  margin-right: 20px;
+}
+
+.chips .chip--checkbox {
+  transition: background-color .3s;
+}
+
+.chips .chip--checkbox.chip--open {
+  background-color: #EEEEEE;
+}
+
+.chips .chip--dropdown {
+  position: relative;
+}
+
+.chips .chip__dropdown {
+  display: none;
+  opacity: 0;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  transition: opacity .3s;
+  min-width: 350px;
+  border-radius: 5px;
+  background: #fff;
+  box-shadow: 0 0 1em 0.5em rgba(0, 0, 0, 0.2);
+}
+
+.chips .chip__dropdown--open {
+  display: block;
+  opacity: 1;
+}
+
+.chips .chip__dropdown-item {
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.chips .chip__dropdown-item:hover {
+  background: #F6F6F6;
+}
+
 * {
   box-sizing: border-box;
 }
 
 body {
   font-family: 'Roboto', sans-serif;
+  padding: 0;
+  margin: 0;
 }
 /*# sourceMappingURL=maps/style.css.map */

@@ -51,6 +51,6 @@
 
 
 @section('page-script')
-    <script src="./assets/js/registration.js"></script>
+    <script src="./assets/js/registration.js?v12312"></script>
 @endsection
 

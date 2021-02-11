@@ -166,6 +166,9 @@
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_regExp__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/regExp */ "./src/js/utils/regExp.js");
 /* harmony import */ var imask__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! imask */ "./node_modules/imask/esm/index.js");
+/* harmony import */ var _utils_request__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/request */ "./src/js/utils/request.js");
+
+
 
 
 
@@ -188,12 +191,13 @@ const values = {
     firstName: '',
     secondName: '',
     patronymic: ''
-}
+};
+
 let errors = [];
 
 function validation(name, value) {
 
-    if (name === 'password' && length < 8 ) {
+    if (name === 'password' && value.length < 4 ) {
         errors.push(name);
         return false;
     }
@@ -210,7 +214,7 @@ function validation(name, value) {
 
     if (name === 'phone' && phoneMask.unmaskedValue.length !== 11) {
         errors.push(name);
-        return false
+        return false;
     }
 
     if (value === '') {
@@ -226,7 +230,7 @@ function nextStep() {
 
     Array.prototype.forEach.call(inputs, (input) => {
         validation(input.name, input.value);
-        values[input.name] = input.value
+        values[input.name] = input.value;
     });
 
     if (errors.length === 0) {
@@ -244,11 +248,11 @@ function nextStep() {
     } else {
         inputs.forEach(input => {
             if (errors.includes(input.name)) {
-                input.classList.add('input--error')
+                input.classList.add('input--error');
             } else {
-                input.classList.remove('input--error')
+                input.classList.remove('input--error');
             }
-        })
+        });
     }
 }
 
@@ -256,7 +260,35 @@ const nextStepBtns = document.querySelectorAll('.js-next-step');
 
 nextStepBtns.forEach((btn) => {
     btn.addEventListener('click', nextStep);
-})
+});
+
+const finishBtn = document.querySelector('.js-finish');
+
+finishBtn.addEventListener('click', () => {
+    const inputs = steps[step].querySelectorAll('.input');
+
+    Array.prototype.forEach.call(inputs, (input) => {
+        validation(input.name, input.value);
+        values[input.name] = input.value;
+    });
+
+    if (errors.length === 0) {
+        _utils_request__WEBPACK_IMPORTED_MODULE_2__["request"]
+            .post('/api/registration', values)
+            .then(() => {
+                alert('Вы успешно зарегестрировались');
+                window.location = '/login';
+            });
+    } else {
+        inputs.forEach(input => {
+            if (errors.includes(input.name)) {
+                input.classList.add('input--error');
+            } else {
+                input.classList.remove('input--error');
+            }
+        });
+    }
+});
 
 
 /***/ }),
@@ -273,6 +305,38 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "emailRegExp", function() { return emailRegExp; });
 const emailRegExp = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
+
+/***/ }),
+
+/***/ "./src/js/utils/request.js":
+/*!*********************************!*\
+  !*** ./src/js/utils/request.js ***!
+  \*********************************/
+/*! exports provided: request */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "request", function() { return request; });
+class Request {
+    constructor() {
+        this.csrf = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+        this.post = this.post.bind(this);
+    }
+
+    post(url, data) {
+        return fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json;',
+                'X-CSRF-TOKEN': this.csrf
+            },
+            body: JSON.stringify(data)
+        }).then(response => response.json());
+    }
+}
+
+const request = new Request();
 
 /***/ })
 
